@@ -11,8 +11,8 @@ import urllib.parse
 app = Flask(__name__) #ローカルポート5000番
 CORS(app)
 
-print("REDIS_URL: " + os.environ["REDIS_URL"])
-url = urllib.parse.urlparse(os.environ["REDIS_URL"])
+print("REDIS_URL: " + os.environ["YOKOSUKA2018_REDIS_URL"])
+url = urllib.parse.urlparse(os.environ["YOKOSUKA2018_REDIS_URL"])
 pool = redis.ConnectionPool(host=url.hostname,
                             port=url.port,
                             db=url.path[1:],
@@ -23,12 +23,16 @@ r = redis.StrictRedis(connection_pool=pool)
 @app.route("/", methods=['GET'])
 def callback():
     print(request)
-    return '*** Score *** Apple: ' + r.get("apple") + " vs Banana: " + r.get("banana")
+    speed = request.args.get('speed')
+    r.incr("count")
+    count = r.get("count")
+    r.set(count, speed)
+    print("count: " + count + ", speed:" + speed)
+    return "count: " + count + ", speed:" + speed
 
-@app.route("/speed")
-def apple():
-    r.set("speed")
-    return "OK"
+
+# @app.route("/speed")
+# def apple():
 
 # @app.route("/count")
 # def count():

@@ -42,8 +42,8 @@ def speed():
     date = request.args.get('date')
     r.incr("count")
     count = r.get("count")
-    r.set(count, {"speed":speed, "date": date})
-    return "count: " + count + ", speed:" + speed + ", date:" + date
+    r.set(count, {"speed":speed, "date": date, "report": False})
+    return "count: " + count + ", speed:" + speed + ", date:" + date + ", report:" + "False"
 
 
 @app.route("/last")
@@ -60,8 +60,11 @@ def last():
 @app.route("/button")
 def button():
     count = r.get("count")
-    speed = r.get(count)
-    return speed
+    res = r.get(count)
+    dic = ast.literal_eval(res)
+    dic["report"] = True
+    r.set(count, str(dic))
+    return "OK"
 
 
 if __name__ == "__main__":

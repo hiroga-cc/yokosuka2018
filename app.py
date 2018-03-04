@@ -36,6 +36,14 @@ def speed():
     r.set(count, speed)
     return "count: " + count + ", speed:" + speed
 
+
+@app.route("/last")
+def last():
+    count = r.get("count")
+    speed = r.get(count)
+    return speed
+
+
 if __name__ == "__main__":
     app.debug = True;
     print("server run!")

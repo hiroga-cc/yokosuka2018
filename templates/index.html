@@ -5,9 +5,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
-  <link rel="stylesheet" href="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-beta.1.css" type="text/css"> </head>
+  <link rel="stylesheet" href="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-beta.1.css" type="text/css">
+  <style type="text/css">
+    .red {
+      color: "red";
+    }
+
+    .green {
+      color: "green";
+    }
+  </style>
+</head>
+
 <body>
-  <nav class="navbar navbar-expand-md bg-primary navbar-dark">
+  <nav class="navbar navbar-expand-md bg-success navbar-dark">
     <div class="container">
       <a class="navbar-brand" href="#"><i class="fa d-inline fa-lg fa-tachometer"></i><b> スマート看板ログ</b></a>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar2SupportedContent" aria-controls="navbar2SupportedContent" aria-expanded="false"
@@ -19,8 +30,8 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <h1 id="last">最後に通った車の時速 → {{speed}}km</h1>
-          <img class="img-fluid d-block" src="static/car_keijidousya.png"> </div>
+          <img class="img-fluid d-block" src="static/car_green.png"> </div>
+        <h1>最後に通った車 → <span id="last" class="red">{{speed}}km</span></h1>
       </div>
     </div>
   </div>
@@ -41,7 +52,14 @@
         // alert(xmlhttp.status)
         var response = xmlhttp.responseText;
         console.log(response)
-        $('#last').text("最後に通った車の時速 → " + response + "km")
+        $('#last').text(response + "km")
+        if(response > 40){
+          $('#last').css("color","red")
+          console.log("high speed!!!")
+        }else{
+          $('#last').css("color","#99FF66")
+          console.log("low speed:)")
+        }
       }
     }
 
